@@ -1,0 +1,22 @@
+.listItem {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f1f1;
+    transition: background 0.2s;
+}
+
+.listItem:last-child {
+    border-bottom: none;
+}
+
+.listItem small {
+    color: #777;
+}
+
+.listItem--active {
+    background-color: #f0f0f0;
+}
+
+.listItem--highlighted {
+    background-color: #e0eaff;
+}
