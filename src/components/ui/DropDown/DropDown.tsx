@@ -125,7 +125,7 @@ const DropDown = (props: DropdownProps) => {
           {options.map((item, index) => (
             <ListItem
               key={item.value}
-              isSelected={item.value === value}
+              isSelected={item.value === selectedItem?.value}
               isHighlighted={index === highlightedIndex}
               onClick={() => handleSelect(item)}
             >
