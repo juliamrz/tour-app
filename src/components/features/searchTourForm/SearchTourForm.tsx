@@ -13,12 +13,12 @@ import type { DropdownOptionItem } from '@/components/ui/DropDown/DropDown.tsx';
 import './SearchTourForm.css';
 
 const SearchTourForm = () => {
-  const [currentSelectedValue, setCurrentSelectedValue] = useState<string>("");
+  const [currentSelectedValue, setCurrentSelectedValue] = useState<DropdownOptionItem>();
   const { countries, isLoadingCountries, isErrorCountries } = useCountries();
 
   const countriesOptions =
     countries
-      ? Object.values(countries).map((item) => ({ value: item.name, label: item.name }))
+      ? Object.values(countries).map((item) => ({ value: item.id, label: item.name }))
       : [];
 
   const handleOpen = () => {
@@ -30,19 +30,20 @@ const SearchTourForm = () => {
   }
 
   function handleSelect(newItem: DropdownOptionItem) {
-    setCurrentSelectedValue(newItem.label as any)
+    setCurrentSelectedValue(newItem)
   }
 
   const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    console.log(formData.get("searchGeo"));
   }
 
   return (
     <form onSubmit={onSubmitHandler} className={clsx("searchTourForm")}>
       <DropDown
-        name="searchTour"
-        value={currentSelectedValue}
+        name="searchGeo"
+        value={(currentSelectedValue?.label as string) ?? ''}
         options={countriesOptions}
         onOpen={handleOpen}
         onSearch={handleSearch}

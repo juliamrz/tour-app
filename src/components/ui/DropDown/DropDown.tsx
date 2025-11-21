@@ -36,6 +36,7 @@ const DropDown = (props: DropdownProps) => {
 
   const [open, setOpen] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const [selectedItem, setSelectedItem] = useState<DropdownOptionItem | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
@@ -51,6 +52,7 @@ const DropDown = (props: DropdownProps) => {
   };
 
   const handleSelect = (item: DropdownOptionItem) => {
+    setSelectedItem(item);
     onSelect?.(item);
     setOpen(false);
   };
@@ -101,8 +103,15 @@ const DropDown = (props: DropdownProps) => {
         onChange={handleInput}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        name={name}
         className="dropdown__input"
+      />
+      <input
+        type="hidden"
+        name={name}
+        value={selectedItem?.value ?? ""}
+        onClick={handleOpen}
+        onChange={handleInput}
+        onKeyDown={handleKeyDown}
       />
       {open && options.length > 0 && (
         <ul ref={listRef} className="dropdown__list">
