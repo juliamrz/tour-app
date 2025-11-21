@@ -1,8 +1,11 @@
+// internal deps
+import SearchTourForm from "@/components/features/searchTourForm";
+
 const App = () => {
 
   return (
     <div>
-      app
+      <SearchTourForm />
     </div>
   )
 }

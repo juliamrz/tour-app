@@ -8,7 +8,7 @@ import ListItem from '@/components/ui/ListItem';
 // Local deps
 import './DropDown.css';
 
-interface DropdownOptionItem {
+export interface DropdownOptionItem {
   value: string | number;
   label: ReactNode;
 }
