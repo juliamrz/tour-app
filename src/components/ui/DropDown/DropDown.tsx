@@ -35,6 +35,7 @@ const DropDown = (props: DropdownProps) => {
   } = props;
 
   const [open, setOpen] = useState<boolean>(false);
+  const [ inputValue, setInputValue ] = useState(value);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const [selectedItem, setSelectedItem] = useState<DropdownOptionItem | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -46,7 +47,9 @@ const DropDown = (props: DropdownProps) => {
   };
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
-    onSearch?.(event.target.value);
+    const text = event.target.value;
+    setInputValue(text);
+    onSearch?.(text);
     setOpen(true);
     setHighlightedIndex(-1);
   };
@@ -95,10 +98,14 @@ const DropDown = (props: DropdownProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+
   return (
     <div ref={wrapperRef} className="dropdown">
       <input
-        value={value}
+        value={inputValue}
         onClick={handleOpen}
         onChange={handleInput}
         onKeyDown={handleKeyDown}
