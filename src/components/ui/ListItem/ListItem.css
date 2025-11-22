@@ -20,3 +20,7 @@
 .listItem--highlighted {
     background-color: #e0eaff;
 }
+
+.listItem:hover {
+    background-color: #d0e4ff;
+}

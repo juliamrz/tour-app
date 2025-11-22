@@ -1,15 +1,15 @@
-.dropdown {
+.select {
     position: relative;
 }
 
-.dropdown__input {
+.select__input {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-.dropdown__list {
+.select__list {
     position: absolute;
     top: 100%;
     left: 0;
