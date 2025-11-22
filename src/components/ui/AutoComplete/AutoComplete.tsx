@@ -1,6 +1,6 @@
 // External deps
 import type { ChangeEvent } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // Internal deps
 import Select from '@/components/ui/Select';
@@ -31,8 +31,16 @@ const AutoComplete = (props: AutoCompleteProps) => {
     onSearch,
   } = props;
 
+  const [ isSelectOpen, setIsSelectOpen ] = useState<boolean>(false);
+
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     onSearch(event.target.value);
+    setIsSelectOpen(true);
+  }
+
+  const onSelectChangeHandler = (newValue: SelectOptionItem["value"]) => {
+    setIsSelectOpen(false);
+    onChange(newValue);
   }
 
   useEffect(() => {
@@ -43,9 +51,10 @@ const AutoComplete = (props: AutoCompleteProps) => {
   return (
     <Select
       name='autoComplete'
+      isOpen={isSelectOpen}
       value={value}
       options={options}
-      onChange={onChange}
+      onChange={onSelectChangeHandler}
       renderInput={({ toggleList }) => (
         <input
           autoFocus

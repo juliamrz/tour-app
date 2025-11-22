@@ -17,6 +17,7 @@ export interface SelectOptionItem {
 
 interface SelectProps {
   name: string;
+  isOpen?: boolean;
   value: SelectOptionItem["value"];
   options: SelectOptionItem[];
   placeholder?: string;
@@ -27,6 +28,7 @@ interface SelectProps {
 const Select = (props: SelectProps) => {
   const {
     name,
+    isOpen = false,
     value,
     options,
     onChange,
@@ -50,7 +52,7 @@ const Select = (props: SelectProps) => {
   }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (!isSelectListOpen) {
+    if (!isSelectListOpen && !isOpen) {
       return;
     }
 
@@ -105,7 +107,7 @@ const Select = (props: SelectProps) => {
         name={name}
         value={value}
       />
-      {isSelectListOpen && options.length > 0 && (
+      {(isSelectListOpen || isOpen) && options.length > 0 && (
         <ul ref={listRef} className={clsx("select__list")}>
           {options.map((item, index) => (
             <ListItem
