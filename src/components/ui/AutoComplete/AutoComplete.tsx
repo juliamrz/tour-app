@@ -43,6 +43,10 @@ const AutoComplete = (props: AutoCompleteProps) => {
     onChange(newValue);
   }
 
+  const onSearchBlurHandler = () => {
+    setIsSelectOpen(false);
+  }
+
   useEffect(() => {
     const selectedOption = options.find(item => item.value === value);
     onSearch(selectedOption?.displayName ?? '');
@@ -61,6 +65,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
           name={name}
           value={searchText}
           onChange={onChangeHandler}
+          onBlur={onSearchBlurHandler}
           onClick={toggleList}
           placeholder={placeholder}
           className="autocomplete__input"
