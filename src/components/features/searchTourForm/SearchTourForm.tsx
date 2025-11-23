@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import Button from '@/components/ui/Button';
 import useCountries from '@/hooks/useCountries.tsx';
 import useGeo from '@/hooks/useGeo.tsx';
+import usePrices from '@/hooks/usePrices.ts';
 import type { SelectOptionItem } from '@/components/ui/Select/Select.tsx';
 import AutoComplete from "@/components/ui/AutoComplete";
 
@@ -18,6 +19,7 @@ const SearchTourForm = () => {
   const [ searchText, setSearchText ] = useState<string>('');
   const { countriesOptions, isLoadingCountries } = useCountries();
   const { geoOptions, isGeoSearchLoading, searchGeo } = useGeo();
+  const { prices, startSearch } = usePrices();
 
   const handleSearch = (newValue: string) => {
     setSearchText(newValue);
@@ -29,7 +31,7 @@ const SearchTourForm = () => {
 
   const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-   // const formData = new FormData(event.currentTarget);
+    startSearch(String(inputValue));
   }
 
   useEffect(() => {
@@ -39,6 +41,8 @@ const SearchTourForm = () => {
 
     searchGeo(searchText);
   }, [searchText]);
+
+  console.debug('debug prices:', JSON.stringify(prices));
 
   return (
     <form onSubmit={onSubmitHandler} className={clsx("searchTourForm")}>
