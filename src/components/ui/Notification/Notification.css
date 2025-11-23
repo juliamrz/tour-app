@@ -1,0 +1,21 @@
+.notification {
+  padding: 8px;
+  background-color: #DDFCC5;
+  margin: 8px 0;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+.notification__info {
+  background-color: #DDEFFF;
+}
+
+
+.notification__error {
+  background-color: #FFDBDB;
+}
+
+.notification__prefix--error {
+  color: #F26464;
+  font-weight: bold;
+}

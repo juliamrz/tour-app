@@ -1,12 +1,13 @@
-// internal deps
+// Internal deps
+import AppProvider from '@/context/app';
 import SearchTourForm from "@/components/features/searchTourForm";
 
 const App = () => {
 
   return (
-    <div>
-      <SearchTourForm />
-    </div>
+    <AppProvider>
+      <SearchTourForm/>
+    </AppProvider>
   )
 }
 
