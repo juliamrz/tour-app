@@ -63,6 +63,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
         <input
           autoFocus
           name={name}
+          autoComplete="off"
           value={searchText}
           onChange={onChangeHandler}
           onBlur={onSearchBlurHandler}

@@ -9,6 +9,7 @@ export const initialState = {
     list: null,
     isLoadingGetList: false,
     isErrorGetList: false,
+    errorMessage: '',
   }
 };
 

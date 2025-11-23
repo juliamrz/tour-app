@@ -14,6 +14,7 @@ export interface AppState {
     list: GetSearchPricesResponse | null,
     isLoadingGetList: boolean,
     isErrorGetList: boolean,
+    errorMessage: string,
   }
 }
 

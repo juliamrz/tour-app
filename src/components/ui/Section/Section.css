@@ -1,0 +1,9 @@
+.section {
+  padding: 25px;
+  border-radius: 6px;
+  min-height: calc(100vh - 50px);
+  max-width: 700px;
+  margin: 25px auto;
+  box-sizing: border-box;
+  background-color: #F9F9F9;;
+}

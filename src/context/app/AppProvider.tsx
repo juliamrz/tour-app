@@ -35,6 +35,7 @@ const reducer = (state: AppState, action: AppAction) => {
           list: action.payload as GetSearchPricesResponse ?? null,
           isLoadingGetList: false,
           isErrorGetList: false,
+          errorMessage: '',
         }
       }
     case PRICES_GET_SEARCH.LOADING:
@@ -43,6 +44,9 @@ const reducer = (state: AppState, action: AppAction) => {
         prices: {
           ...state.prices,
           isLoadingGetList: true,
+          isErrorGetList: false,
+          errorMessage: '',
+          list: null,
         }
       }
     case PRICES_GET_SEARCH.ERROR:
@@ -51,6 +55,8 @@ const reducer = (state: AppState, action: AppAction) => {
         prices: {
           ...state.prices,
           isErrorGetList: true,
+          errorMessage: String(action.payload),
+          isLoadingGetList: false,
         }
       }
     default:

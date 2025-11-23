@@ -18,6 +18,7 @@ const usePrices = () => {
   const startSearch = async (id: string) => {
     if (!id) {
       setSearchResponse(null);
+      appCTX.dispatch({ type: PRICES_GET_SEARCH.ERROR, payload: 'Please select a country.' });
       return;
     }
     appCTX.dispatch({ type: PRICES_GET_SEARCH.LOADING })
@@ -41,6 +42,10 @@ const usePrices = () => {
 
     try {
       const resp = await priceApi.getList(searchResponse.token);
+      if (Object.keys(resp.prices).length === 0) {
+        appCTX.dispatch({ type: PRICES_GET_SEARCH.SUCCESS, payload: {} });
+        return;
+      }
       appCTX.dispatch({ type: PRICES_GET_SEARCH.SUCCESS, payload: resp });
     } catch (error) {
       appCTX.dispatch({ type: PRICES_GET_SEARCH.ERROR, payload: error });
