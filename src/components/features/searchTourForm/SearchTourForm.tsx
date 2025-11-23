@@ -1,5 +1,5 @@
 // External deps
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import clsx from 'clsx';
 
@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import Button from '@/components/ui/Button';
 import useCountries from '@/hooks/useCountries.tsx';
 import useGeo from '@/hooks/useGeo.tsx';
-import type {SelectOptionItem } from "@/components/ui/Select/Select.tsx";
+import type { SelectOptionItem } from '@/components/ui/Select/Select.tsx';
 import AutoComplete from "@/components/ui/AutoComplete";
 
 // Local deps
@@ -16,9 +16,9 @@ import './SearchTourForm.css';
 const SearchTourForm = () => {
   const [ inputValue, setInputValue ] = useState<SelectOptionItem["value"]>('');
   const [ searchText, setSearchText ] = useState<string>('');
-  const { countriesOptions, isLoadingCountries, isErrorCountries } = useCountries();
-  const { geoOptions, isGeoSearchLoading, isGeoSearchError, searchGeo } = useGeo();
-  console.debug('debug countriesOptions:', countriesOptions);
+  const { countriesOptions, isLoadingCountries } = useCountries();
+  const { geoOptions, isGeoSearchLoading, searchGeo } = useGeo();
+
   const handleSearch = (newValue: string) => {
     setSearchText(newValue);
   }
@@ -29,8 +29,16 @@ const SearchTourForm = () => {
 
   const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+   // const formData = new FormData(event.currentTarget);
   }
+
+  useEffect(() => {
+    if (!searchText.length) {
+      return;
+    }
+
+    searchGeo(searchText);
+  }, [searchText]);
 
   return (
     <form onSubmit={onSubmitHandler} className={clsx("searchTourForm")}>
@@ -40,10 +48,15 @@ const SearchTourForm = () => {
         onSearch={handleSearch}
         onChange={handleChange}
         name='searchTour'
-        options={countriesOptions}
+        options={searchText.length ? geoOptions : countriesOptions}
         placeholder="Search tour..."
       />
-      <Button type="submit">Submit</Button>
+      <Button
+        type="submit"
+        disabled={isLoadingCountries || isGeoSearchLoading}
+      >
+        Submit
+      </Button>
     </form>
   );
 }
