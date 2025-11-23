@@ -1,22 +1,25 @@
 // `External deps
-import type { PropsWithChildren } from 'react';
+import type { ReactNode } from 'react';
 import clsx from 'clsx';
 
 // Local deps
 import './ListItem.css';
 
 interface ListItemProps {
+  name: string;
+  label: ReactNode;
   isSelected: boolean;
   isHighlighted: boolean;
   onClick: () => void;
 }
 
-const ListItem = (props: PropsWithChildren<ListItemProps>) => {
+const ListItem = (props: ListItemProps) => {
   const {
+    name,
+    label,
     isSelected,
     isHighlighted,
     onClick,
-    children,
   } = props;
 
   return (
@@ -27,7 +30,8 @@ const ListItem = (props: PropsWithChildren<ListItemProps>) => {
         "listItem--highlighted": isHighlighted,
       })}
     >
-      {children}
+      {label ? label : null}
+      <span>{name}</span>
     </li>
   );
 }

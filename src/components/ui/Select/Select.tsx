@@ -112,12 +112,12 @@ const Select = (props: SelectProps) => {
           {options.map((item, index) => (
             <ListItem
               key={item.value}
+              name={item.displayName}
+              label={item.label}
               isSelected={item.value === value}
               isHighlighted={index === highlightedIndex}
               onClick={() => onSelectItemClickHandler(item)}
-            >
-              {item.label ? item.label : item.displayName}
-            </ListItem>
+            />
           ))}
         </ul>
       )}

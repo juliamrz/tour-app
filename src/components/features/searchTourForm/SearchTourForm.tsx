@@ -5,7 +5,8 @@ import clsx from 'clsx';
 
 // Internal deps
 import Button from '@/components/ui/Button';
-import useCountries from '@/hooks/api/useCountries.ts';
+import useCountries from '@/hooks/useCountries.tsx';
+import useGeo from '@/hooks/useGeo.tsx';
 import type {SelectOptionItem } from "@/components/ui/Select/Select.tsx";
 import AutoComplete from "@/components/ui/AutoComplete";
 
@@ -15,13 +16,9 @@ import './SearchTourForm.css';
 const SearchTourForm = () => {
   const [ inputValue, setInputValue ] = useState<SelectOptionItem["value"]>('');
   const [ searchText, setSearchText ] = useState<string>('');
-  const { countries, isLoadingCountries, isErrorCountries } = useCountries();
-
-  const countriesOptions =
-    countries
-      ? Object.values(countries).map((item) => ({ value: item.id, displayName: item.name }))
-      : [];
-
+  const { countriesOptions, isLoadingCountries, isErrorCountries } = useCountries();
+  const { geoOptions, isGeoSearchLoading, isGeoSearchError, searchGeo } = useGeo();
+  console.debug('debug countriesOptions:', countriesOptions);
   const handleSearch = (newValue: string) => {
     setSearchText(newValue);
   }
@@ -34,8 +31,6 @@ const SearchTourForm = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
   }
-
-  console.debug('debug searchText:', searchText);
 
   return (
     <form onSubmit={onSubmitHandler} className={clsx("searchTourForm")}>
