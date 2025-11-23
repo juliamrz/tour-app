@@ -1,19 +1,17 @@
 // External deps
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 // Internal deps
 import PricesApi from '@/api/PricesApi.ts';
-import type { StartSearchResponse, GetSearchPricesResponse, ErrorResponse } from '@/api/types.ts';
+import type { StartSearchResponse } from '@/api/types.ts';
 import { delay } from '@/utils/delay.ts';
+import { AppContext } from '@/context/app/AppContext.ts';
+import { PRICES_GET_SEARCH } from '@/context/app/app.constants.ts';
 
 const usePrices = () => {
-  const [ searchResponse, setSearchResponse ] = useState<StartSearchResponse | null>(null);
-  const [ isStartSearchLoading, setIsStartSearchLoading ] = useState<boolean>(false);
-  const [ isStartSearchError, setIsStartSearchError ] = useState<ErrorResponse | null>(null);
+  const appCTX = useContext(AppContext);
 
-  const [ prices, setPrices ] = useState<GetSearchPricesResponse | null>(null);
-  const [ isPricesLoading, setIsPricesLoading ] = useState<boolean>(false);
-  const [ isPricesError, setIsPricesError ] = useState<ErrorResponse | null>(null);
+  const [ searchResponse, setSearchResponse ] = useState<StartSearchResponse | null>(null);
 
   const priceApi = new PricesApi();
 
@@ -22,38 +20,30 @@ const usePrices = () => {
       setSearchResponse(null);
       return;
     }
-    setIsStartSearchLoading(true);
+    appCTX.dispatch({ type: PRICES_GET_SEARCH.LOADING })
 
     try {
       const resp = await priceApi.startSearchPrices(id);
       const waitUntilMs = new Date(resp.waitUntil).getTime() - new Date().getTime();
       await delay(waitUntilMs);
       setSearchResponse(resp);
-      setIsStartSearchError(null);
     } catch (error) {
-      setSearchResponse(null);
-      setIsStartSearchError(error as ErrorResponse);
-    } finally {
-      setIsStartSearchLoading(false);
+      appCTX.dispatch({ type: PRICES_GET_SEARCH.ERROR, payload: error });
     }
   }
 
   const getPrices = async () => {
     if (!searchResponse?.token) {
-      setPrices(null);
+      appCTX.dispatch({ type: PRICES_GET_SEARCH.ERROR })
       return;
     }
-    setIsPricesLoading(true);
+    appCTX.dispatch({ type: PRICES_GET_SEARCH.LOADING })
 
     try {
       const resp = await priceApi.getList(searchResponse.token);
-      setPrices(resp);
-      setIsPricesError(null);
+      appCTX.dispatch({ type: PRICES_GET_SEARCH.SUCCESS, payload: resp });
     } catch (error) {
-      setPrices(null);
-      setIsPricesError(error as ErrorResponse);
-    } finally {
-      setIsPricesLoading(false);
+      appCTX.dispatch({ type: PRICES_GET_SEARCH.ERROR, payload: error });
     }
   }
 
@@ -64,12 +54,7 @@ const usePrices = () => {
   }, [searchResponse?.token]);
 
   return {
-    prices,
-    isPricesLoading,
-    isPricesError,
     startSearch,
-    isStartSearchLoading,
-    isStartSearchError,
   }
 }
 

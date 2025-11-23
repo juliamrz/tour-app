@@ -1,5 +1,5 @@
 // External deps
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import type { FormEvent } from 'react';
 import clsx from 'clsx';
 
@@ -10,6 +10,7 @@ import useGeo from '@/hooks/useGeo.tsx';
 import usePrices from '@/hooks/usePrices.ts';
 import type { SelectOptionItem } from '@/components/ui/Select/Select.tsx';
 import AutoComplete from "@/components/ui/AutoComplete";
+import { AppContext } from "@/context/app/AppContext.ts";
 
 // Local deps
 import './SearchTourForm.css';
@@ -19,7 +20,11 @@ const SearchTourForm = () => {
   const [ searchText, setSearchText ] = useState<string>('');
   const { countriesOptions, isLoadingCountries } = useCountries();
   const { geoOptions, isGeoSearchLoading, searchGeo } = useGeo();
-  const { prices, startSearch } = usePrices();
+  const { startSearch } = usePrices();
+
+  const appCTX = useContext(AppContext);
+  console.debug('debug LOADING: ', JSON.stringify(appCTX.state.prices.isLoadingGetList));
+  console.debug('debug GET LIST: ', JSON.stringify(appCTX.state.prices.list));
 
   const handleSearch = (newValue: string) => {
     setSearchText(newValue);
@@ -41,8 +46,6 @@ const SearchTourForm = () => {
 
     searchGeo(searchText);
   }, [searchText]);
-
-  console.debug('debug prices:', JSON.stringify(prices));
 
   return (
     <form onSubmit={onSubmitHandler} className={clsx("searchTourForm")}>
