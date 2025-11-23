@@ -1,0 +1,17 @@
+.autocomplete__input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.autocomplete__input::placeholder {
+    color: #999;
+    font-style: italic;
+    opacity: 1;
+}
+
+.autocomplete__input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}

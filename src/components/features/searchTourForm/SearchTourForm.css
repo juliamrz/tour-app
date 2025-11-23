@@ -1,0 +1,16 @@
+.searchTourForm {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 250px;
+    gap: 18px;
+    padding: 25px;
+    background-color: white;
+    border-radius: 6px;
+}
+
+@media (max-width: 639px) {
+    .searchTourForm {
+        grid-auto-flow: row;
+        grid-template-columns: 1fr;
+    }
+}
