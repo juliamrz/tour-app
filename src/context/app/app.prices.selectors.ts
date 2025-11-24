@@ -40,3 +40,4 @@ export const selectHotelById = (state: AppState, hotelId: PriceOffer['id']) => {
 };
 
 export const selectSearchCountryId = (state: AppState) => state.countries.searchId;
+

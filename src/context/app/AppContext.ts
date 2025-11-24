@@ -21,6 +21,11 @@ export const initialState = {
   },
   countries: {
     searchId: '',
+    list: null,
+    isLoaded: false,
+    isLoadingGetList: false,
+    isErrorGetList: false,
+    errorMessage: '',
   }
 };
 

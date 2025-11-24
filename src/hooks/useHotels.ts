@@ -17,9 +17,7 @@ const useHotels = () => {
     try {
       const resp = await hotelsApi.getListByCountryId(countryID);
       appCtx.dispatch({ type: HOTELS_GET_LIST.SUCCESS, payload: resp });
-      console.debug('debug resp:', resp);
     } catch (error) {
-      console.debug('debug resp: error');
       appCtx.dispatch({ type: HOTELS_GET_LIST.ERROR, payload: error });
     }
   }

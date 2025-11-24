@@ -3,11 +3,11 @@ import { useReducer } from 'react';
 import type { PropsWithChildren } from 'react';
 
 // Internal deps
-import type { GetSearchPricesResponse, HotelsMap, Country } from '@/api/types.ts';
+import type { GetSearchPricesResponse, HotelsMap, Country, CountriesMap } from '@/api/types.ts';
 
 // Local deps
 import {
-  PRICES_GET_SEARCH, HOTELS_GET_LIST, COUNTRIES,
+  PRICES_GET_SEARCH, HOTELS_GET_LIST, COUNTRIES, COUNTRIES_GET_LIST,
 } from '@/context/app/app.constants.ts';
 import { AppContext, initialState } from './AppContext.ts';
 import type { AppState, AppAction} from './app.types.ts';
@@ -90,6 +90,46 @@ const reducer = (state: AppState, action: AppAction) => {
         countries: {
           ...state.countries,
           searchId: action.payload as Country['id'],
+        }
+      }
+    case COUNTRIES_GET_LIST.SUCCESS: {
+      const newList = action.payload as CountriesMap ?? null;
+      return {
+        ...state,
+        countries: {
+          ...state.countries,
+          list: {
+            ...state.countries.list,
+            ...newList,
+          },
+          isLoaded: true,
+          isLoadingGetList: false,
+          isErrorGetList: false,
+          errorMessage: '',
+        }
+      }}
+    case COUNTRIES_GET_LIST.LOADING:
+      return {
+        ...state,
+        countries: {
+          ...state.countries,
+          list: null,
+          isLoaded: false,
+          isLoadingGetList: true,
+          isErrorGetList: false,
+          errorMessage: '',
+        }
+      }
+    case COUNTRIES_GET_LIST.ERROR:
+      return {
+        ...state,
+        countries: {
+          ...state.countries,
+          list: null,
+          isLoaded: false,
+          isLoadingGetList: false,
+          isErrorGetList: true,
+          errorMessage: String(action.payload),
         }
       }
     default:
