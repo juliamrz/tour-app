@@ -1,5 +1,5 @@
 // External deps
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import type { FormEvent } from 'react';
 import clsx from 'clsx';
 
@@ -10,13 +10,9 @@ import useGeo from '@/hooks/useGeo.tsx';
 import usePrices from '@/hooks/usePrices.ts';
 import type { SelectOptionItem } from '@/components/ui/Select/Select.tsx';
 import AutoComplete from '@/components/ui/AutoComplete';
+import { AppContext } from '@/context/app/AppContext.ts';
 import Notification from '@/components/ui/Notification';
 import Loader from '@/components/ui/Loader';
-import Section from '@/components/ui/Section';
-import useAppSelector from '@/hooks/useAppSelector.ts';
-import {
-  selectTours, selectIsToursLoading, selectIsToursError, selectToursErrorMessage, selectIsToursLoaded,
-} from '@/context/app/app.prices.selectors.ts';
 
 // Local deps
 import './SearchTourForm.css';
@@ -28,12 +24,12 @@ const SearchTourForm = () => {
   const { geoOptions, isGeoSearchLoading, searchGeo } = useGeo();
   const { startSearch } = usePrices();
 
-  const isToursLoaded = useAppSelector(selectIsToursLoaded);
-  const isToursLoading = useAppSelector(selectIsToursLoading);
-  const isToursError = useAppSelector(selectIsToursError);
-  const toursErrorMessage = useAppSelector(selectToursErrorMessage);
-  const tours = useAppSelector(selectTours);
-  console.debug('debug tours:', JSON.stringify(tours));
+  const appCtx = useContext(AppContext);
+  const isLoadingGetPrices = appCtx.state.prices.isLoadingGetList;
+  const isErrorGetPrices = appCtx.state.prices.isErrorGetList;
+  const errorGetPricesMessage = appCtx.state.prices.errorMessage;
+  const pricesList = appCtx.state.prices.list;
+
   const handleSearch = (newValue: string) => {
     setSearchText(newValue);
   }
@@ -56,7 +52,7 @@ const SearchTourForm = () => {
   }, [searchText]);
 
   return (
-    <Section>
+    <>
       <form onSubmit={onSubmitHandler} className={clsx("searchTourForm")}>
         <AutoComplete
           value={inputValue}
@@ -74,13 +70,13 @@ const SearchTourForm = () => {
           Submit
         </Button>
       </form>
-      {isToursLoading ? <Loader /> : null}
-      {!tours.length && isToursLoaded
+      {isLoadingGetPrices ? <Loader /> : null}
+      {!!pricesList && Object.keys(pricesList).length === 0
         ? <Notification message="За вашим запитом турів не знайдено" type="info"/>
         : null
       }
-      {isToursError ? <Notification message={toursErrorMessage} type="error" /> : null}
-    </Section>
+      {isErrorGetPrices ? <Notification message={errorGetPricesMessage} type="error" /> : null}
+    </>
   );
 }
 
