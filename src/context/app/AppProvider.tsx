@@ -7,7 +7,6 @@ import type { GetSearchPricesResponse } from '@/api/types.ts';
 
 // Local deps
 import {
-  PRICES_START_SEARCH,
   PRICES_GET_SEARCH,
 } from '@/context/app/app.constants.ts';
 import { AppContext, initialState } from './AppContext.ts';
@@ -15,24 +14,12 @@ import type { AppState, AppAction} from './app.types.ts';
 
 const reducer = (state: AppState, action: AppAction) => {
   switch (action.type) {
-    case PRICES_START_SEARCH.SUCCESS:
-      return {
-        ...state,
-      }
-    case PRICES_START_SEARCH.LOADING:
-      return {
-        ...state,
-      }
-    case PRICES_START_SEARCH.ERROR:
-      return {
-        ...state,
-      }
     case PRICES_GET_SEARCH.SUCCESS:
       return {
         ...state,
         prices: {
-          ...state.prices,
           list: action.payload as GetSearchPricesResponse ?? null,
+          isLoaded: true,
           isLoadingGetList: false,
           isErrorGetList: false,
           errorMessage: '',
@@ -42,21 +29,22 @@ const reducer = (state: AppState, action: AppAction) => {
       return {
         ...state,
         prices: {
-          ...state.prices,
+          list: null,
+          isLoaded: false,
           isLoadingGetList: true,
           isErrorGetList: false,
           errorMessage: '',
-          list: null,
         }
       }
     case PRICES_GET_SEARCH.ERROR:
       return {
         ...state,
         prices: {
-          ...state.prices,
+          list: null,
+          isLoaded: false,
+          isLoadingGetList: false,
           isErrorGetList: true,
           errorMessage: String(action.payload),
-          isLoadingGetList: false,
         }
       }
     default:

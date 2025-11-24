@@ -12,6 +12,7 @@ export interface AppAction {
 export interface AppState {
   prices: {
     list: GetSearchPricesResponse | null,
+    isLoaded: boolean,
     isLoadingGetList: boolean,
     isErrorGetList: boolean,
     errorMessage: string,
