@@ -7,6 +7,22 @@ import type { AppContextType } from '@/context/app/app.types.ts';
 export const initialState = {
   prices: {
     list: null,
+    isLoaded: false,
+    isLoadingGetList: false,
+    isErrorGetList: false,
+    errorMessage: '',
+  },
+  hotels: {
+    list: null,
+    isLoaded: false,
+    isLoadingGetList: false,
+    isErrorGetList: false,
+    errorMessage: '',
+  },
+  countries: {
+    searchId: '',
+    list: null,
+    isLoaded: false,
     isLoadingGetList: false,
     isErrorGetList: false,
     errorMessage: '',

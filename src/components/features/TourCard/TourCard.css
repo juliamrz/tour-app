@@ -1,0 +1,17 @@
+.tourСard__amount {
+  padding: 6px 0;
+}
+
+.tourСard__hotelName {
+  margin: 12px 0 4px;
+}
+
+.tourСard__country {
+  margin-bottom: 6px;
+}
+
+.tourСard__link {
+  height: initial;
+  text-align: left;
+}
+

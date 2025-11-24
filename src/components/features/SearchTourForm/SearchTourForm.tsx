@@ -1,19 +1,18 @@
 // External deps
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import clsx from 'clsx';
 
 // Internal deps
+import useAppSelector from '@/hooks/useAppSelector.ts';
 import Button from '@/components/ui/Button';
 import useCountries from '@/hooks/useCountries.tsx';
 import useGeo from '@/hooks/useGeo.tsx';
 import usePrices from '@/hooks/usePrices.ts';
+import useHotels from '@/hooks/useHotels.ts';
 import type { SelectOptionItem } from '@/components/ui/Select/Select.tsx';
 import AutoComplete from '@/components/ui/AutoComplete';
-import { AppContext } from '@/context/app/AppContext.ts';
-import Notification from '@/components/ui/Notification';
-import Loader from '@/components/ui/Loader';
-import Section from '@/components/ui/Section';
+import { selectIsToursLoaded, selectTours } from '@/context/app/app.prices.selectors.ts';
 
 // Local deps
 import './SearchTourForm.css';
@@ -24,12 +23,9 @@ const SearchTourForm = () => {
   const { countriesOptions, isLoadingCountries } = useCountries();
   const { geoOptions, isGeoSearchLoading, searchGeo } = useGeo();
   const { startSearch } = usePrices();
-
-  const appCtx = useContext(AppContext);
-  const isLoadingGetPrices = appCtx.state.prices.isLoadingGetList;
-  const isErrorGetPrices = appCtx.state.prices.isErrorGetList;
-  const errorGetPricesMessage = appCtx.state.prices.errorMessage;
-  const pricesList = appCtx.state.prices.list;
+  const { getHotels } = useHotels();
+  const isToursLoaded = useAppSelector(selectIsToursLoaded);
+  const tours = useAppSelector(selectTours);
 
   const handleSearch = (newValue: string) => {
     setSearchText(newValue);
@@ -52,8 +48,14 @@ const SearchTourForm = () => {
     searchGeo(searchText);
   }, [searchText]);
 
+  useEffect(() => {
+    if(isToursLoaded && !!tours.length) {
+     getHotels(String(inputValue));
+    }
+  }, [tours.length]);
+
   return (
-    <Section>
+    <>
       <form onSubmit={onSubmitHandler} className={clsx("searchTourForm")}>
         <AutoComplete
           value={inputValue}
@@ -71,13 +73,7 @@ const SearchTourForm = () => {
           Submit
         </Button>
       </form>
-      {isLoadingGetPrices ? <Loader /> : null}
-      {!!pricesList && Object.keys(pricesList).length === 0
-        ? <Notification message="За вашим запитом турів не знайдено" type="info"/>
-        : null
-      }
-      {isErrorGetPrices ? <Notification message={errorGetPricesMessage} type="error" /> : null}
-    </Section>
+    </>
   );
 }
 

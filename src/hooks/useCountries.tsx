@@ -1,15 +1,17 @@
 // External deps
-import { useState, useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 
 // Internal deps
 import CountriesApi from '@/api/CountriesApi.ts';
-import type { CountriesMap, ErrorResponse } from '@/api/types.ts';
 import type { SelectOptionItem } from '@/components/ui/Select/Select.tsx';
+import { AppContext } from '@/context/app/AppContext.ts';
+import {COUNTRIES_GET_LIST} from '@/context/app/app.constants.ts';
+import useAppSelector from '@/hooks/useAppSelector.ts';
+import { selectCountries } from '@/context/app/app.countries.selectors.ts';
 
 const useCountries = () => {
-  const [ countries, setCountries ] = useState<CountriesMap | null>(null);
-  const [ isLoadingCountries, setIsLoadingCountries ] = useState<boolean>(false);
-  const [ isErrorCountries, setIsErrorCountries ] = useState<ErrorResponse | null>(null);
+  const appCtx = useContext(AppContext);
+  const countries = useAppSelector(selectCountries);
 
   const countriesOptions: SelectOptionItem[] = countries
     ? Object.values(countries).map(item => ({
@@ -20,17 +22,13 @@ const useCountries = () => {
     : [];
 
   const getCountries = async () => {
-    setIsLoadingCountries(true);
+    appCtx.dispatch({ type: COUNTRIES_GET_LIST.LOADING });
     const countriesApi = new CountriesApi();
     try {
       const resp = await countriesApi.getList();
-      setCountries(resp);
-      setIsErrorCountries(null);
+      appCtx.dispatch({ type: COUNTRIES_GET_LIST.SUCCESS, payload: resp });
     } catch (error) {
-      setCountries(null);
-      setIsErrorCountries(error as ErrorResponse);
-    } finally {
-      setIsLoadingCountries(false);
+      appCtx.dispatch({ type: COUNTRIES_GET_LIST.ERROR, payload: error });
     }
   }
 
@@ -39,10 +37,7 @@ const useCountries = () => {
   }, []);
 
   return {
-    countries,
     countriesOptions,
-    isLoadingCountries,
-    isErrorCountries,
   }
 };
 
