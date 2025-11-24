@@ -11,6 +11,16 @@ export const initialState = {
     isLoadingGetList: false,
     isErrorGetList: false,
     errorMessage: '',
+  },
+  hotels: {
+    list: null,
+    isLoaded: false,
+    isLoadingGetList: false,
+    isErrorGetList: false,
+    errorMessage: '',
+  },
+  countries: {
+    searchId: '',
   }
 };
 

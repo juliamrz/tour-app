@@ -24,7 +24,7 @@ const ImgWithSkeleton = (props: ImgWithSkeletonProps) => {
   return (
     <div className={clsx("ImgWithSkeleton", className)} style={{ height: `${height}px` }}>
       {isShowSkeleton && <div className="ImgWithSkeleton__skeleton"/>}
-      <img src={src ?? ''} alt={alt ?? ''} className={clsx("ImgWithSkeleton__img")}/>
+      {src ? <img src={src ?? ''} alt={alt ?? ''} className={clsx("ImgWithSkeleton__img")}/> : null}
     </div>
   )
 }
