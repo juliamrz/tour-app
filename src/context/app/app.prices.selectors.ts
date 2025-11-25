@@ -13,6 +13,16 @@ export const selectTours = (state: AppState) => {
   return list ? Object.values(list.prices) : [];
 };
 
+export const selectTourById = (state: AppState, tourId: PriceOffer['id']) => {
+  const list = state.prices.list;
+
+  if (!list || !list.prices) {
+    return null;
+  }
+
+  return list.prices[tourId] ?? null;
+};
+
 export const selectIsToursLoaded = (state: AppState) => state.prices.isLoaded;
 export const selectIsToursLoading = (state: AppState) => state.prices.isLoadingGetList;
 export const selectIsToursError = (state: AppState) => state.prices.isErrorGetList;

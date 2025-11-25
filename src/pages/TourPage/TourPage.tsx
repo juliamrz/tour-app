@@ -1,13 +1,20 @@
 // External deps
-import CardContainer from '@/components/ui/CardContainer';
+import { useParams } from 'react-router-dom';
+
+// Internal deps
+import Section from '@/components/ui/Section';
+import MainContainer from '@/components/ui/MainContainer';
+import TourCardDetail from '@/components/features/TourCardDetail';
 
 const TourPage = () => {
-  return (
-    <main>
-      <CardContainer>
+  const { priceId, hotelId } = useParams<{ priceId: string, hotelId: string }>();
 
-      </CardContainer>
-    </main>
+  return (
+    <MainContainer>
+      <Section>
+        <TourCardDetail hotelId={hotelId ?? ''} priceId={priceId ?? ''} />
+      </Section>
+    </MainContainer>
   )
 }
 

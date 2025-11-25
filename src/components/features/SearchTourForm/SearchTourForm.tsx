@@ -20,7 +20,7 @@ import './SearchTourForm.css';
 const SearchTourForm = () => {
   const [ inputValue, setInputValue ] = useState<SelectOptionItem["value"]>('');
   const [ searchText, setSearchText ] = useState<string>('');
-  const { countriesOptions, isLoadingCountries } = useCountries();
+  const { countriesOptions } = useCountries();
   const { geoOptions, isGeoSearchLoading, searchGeo } = useGeo();
   const { startSearch } = usePrices();
   const { getHotels } = useHotels();
@@ -49,7 +49,7 @@ const SearchTourForm = () => {
   }, [searchText]);
 
   useEffect(() => {
-    if(isToursLoaded && !!tours.length) {
+    if(isToursLoaded && !!tours.length && !!inputValue) {
      getHotels(String(inputValue));
     }
   }, [tours.length]);
@@ -68,7 +68,7 @@ const SearchTourForm = () => {
         />
         <Button
           type="submit"
-          disabled={isLoadingCountries || isGeoSearchLoading}
+          disabled={isGeoSearchLoading}
         >
           Submit
         </Button>

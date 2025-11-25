@@ -7,8 +7,10 @@ import './Button.css';
 
 interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
+  viewType?: 'primary' | 'secondary';
   onClick?: () => void;
   disabled?: boolean;
+  className?: string;
 }
 
 const Button = (props: PropsWithChildren<ButtonProps>) => {
@@ -17,6 +19,8 @@ const Button = (props: PropsWithChildren<ButtonProps>) => {
     onClick,
     disabled = false,
     children,
+    className,
+    viewType = 'primary',
   } = props;
 
   return (
@@ -24,7 +28,7 @@ const Button = (props: PropsWithChildren<ButtonProps>) => {
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={clsx('btn')}
+      className={clsx('btn', `btn--${viewType}`, className)}
     >
       {children}
     </button>
