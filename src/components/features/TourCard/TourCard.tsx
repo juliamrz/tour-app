@@ -1,5 +1,6 @@
 // External deps
 import clsx from 'clsx';
+import { useNavigate } from 'react-router-dom';
 
 // Internal deps
 import useAppSelector from '@/hooks/useAppSelector.ts';
@@ -18,6 +19,7 @@ import './TourCard.css'
 
 interface TourCardProps {
   startDate: PriceOffer['startDate'];
+  priceId: PriceOffer['id'];
   hotelID: PriceOffer['hotelID'];
   amount: PriceOffer['amount'];
   currency: PriceOffer['currency'];
@@ -26,11 +28,13 @@ interface TourCardProps {
 const TourCard = (props: TourCardProps) => {
   const {
     startDate,
+    priceId = '',
     hotelID = '',
     amount,
     currency,
   } = props;
 
+  const navigate = useNavigate();
   const hotel = useAppSelector((state) => selectHotelById(state, hotelID));
   const country = useAppSelector(state => selectCountryById(state, hotel?.countryId ?? ''));
 
@@ -49,7 +53,12 @@ const TourCard = (props: TourCardProps) => {
       <span>Старт туру</span>
       <span>{formatDate(startDate)}</span>
       <h3 className={clsx("tourСard__amount")}>{formatNumber(amount)} {currency}</h3>
-      <TextButton className={clsx("tourСard__link")}>Відкрити ціну</TextButton>
+      <TextButton
+        className={clsx("tourСard__link")}
+        onClick={() => navigate(`/tour/${priceId}/${hotelID}`)}
+      >
+        Відкрити ціну
+      </TextButton>
     </CardContainer>
   )
 }

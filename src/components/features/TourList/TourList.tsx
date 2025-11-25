@@ -18,6 +18,7 @@ const TourList = () => {
         return (
           <TourCard
             key={tour.id}
+            priceId={tour.id}
             startDate={tour.startDate}
             hotelID={tour.hotelID}
             amount={tour.amount}

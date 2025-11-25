@@ -12,7 +12,7 @@ import {
   selectIsToursError, selectToursErrorMessage,
 } from '@/context/app/app.prices.selectors.ts';
 
-const SearchTour = () => {
+const SearchTourPage = () => {
   const isToursLoading = useAppSelector(selectIsToursLoading);
   const isToursLoaded = useAppSelector(selectIsToursLoaded);
   const tours = useAppSelector(selectTours);
@@ -45,4 +45,4 @@ const SearchTour = () => {
   )
 }
 
-export default SearchTour;
+export default SearchTourPage;
