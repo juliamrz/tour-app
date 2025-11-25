@@ -11,6 +11,7 @@ import TextButton from '@/components/ui/TextButton';
 import { formatDate } from '@/utils/formatDate.ts';
 import { formatNumber } from '@/utils/formatNumber.ts';
 import { selectHotelById } from '@/context/app/app.prices.selectors.ts';
+import { selectCountryById } from '@/context/app/app.countries.selectors.ts';
 
 // Local deps
 import './TourCard.css'
@@ -31,6 +32,7 @@ const TourCard = (props: TourCardProps) => {
   } = props;
 
   const hotel = useAppSelector((state) => selectHotelById(state, hotelID));
+  const country = useAppSelector(state => selectCountryById(state, hotel?.countryId ?? ''));
 
   return (
     <CardContainer>
@@ -40,7 +42,10 @@ const TourCard = (props: TourCardProps) => {
         isShowSkeleton={!hotel}
       />
       <TextWithSkeleton text={hotel?.name} className={clsx("tourСard__hotelName")} isTitle />
-      <TextWithSkeleton text={hotel?.countryId} className={clsx("tourСard__country")} />
+      <div className={clsx("tourСard__countryInfo")}>
+        <img src={country?.flag} alt={hotel?.name} width={18}/>
+        <TextWithSkeleton text={`${country?.name}, ${hotel?.cityName}`} className={clsx("tourСard__country")} />
+      </div>
       <span>Старт туру</span>
       <span>{formatDate(startDate)}</span>
       <h3 className={clsx("tourСard__amount")}>{formatNumber(amount)} {currency}</h3>

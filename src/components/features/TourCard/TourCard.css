@@ -1,3 +1,10 @@
+.tourСard__countryInfo {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 6px;
+  gap: 4px;
+}
+
 .tourСard__amount {
   padding: 6px 0;
 }
