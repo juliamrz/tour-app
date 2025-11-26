@@ -20,6 +20,10 @@ export interface AppState {
     isLoadingGetList: boolean,
     isErrorGetList: boolean,
     errorMessage: string,
+    isLoadedById: boolean,
+    isLoadingById: boolean,
+    isErrorById: boolean,
+    errorByIdMessage: string,
   },
   hotels: {
     list: HotelsMap | null,

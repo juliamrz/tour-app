@@ -12,6 +12,10 @@ export const initialState = {
     isLoadingGetList: false,
     isErrorGetList: false,
     errorMessage: '',
+    isLoadedById: false,
+    isLoadingById: false,
+    isErrorById: false,
+    errorByIdMessage: '',
   },
   hotels: {
     list: null,

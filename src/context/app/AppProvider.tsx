@@ -189,10 +189,10 @@ const reducer = (state: AppState, action: AppAction) => {
             ...state.prices.byId,
             [price.id]: price,
           },
-          isLoaded: true,
-          isLoadingGetList: false,
-          isErrorGetList: false,
-          errorMessage: '',
+          isLoadedById: true,
+          isLoadingById: false,
+          isErrorById: false,
+          errorByIdMessage: '',
         }
       }
     }
@@ -201,9 +201,9 @@ const reducer = (state: AppState, action: AppAction) => {
         ...state,
         prices: {
           ...state.prices,
-          isLoadingGetList: true,
-          isErrorGetList: false,
-          errorMessage: '',
+          isLoadingById: true,
+          isErrorById: false,
+          errorByIdMessage: '',
         }
       }
     case PRICE_GET_BY_ID.ERROR:
@@ -211,9 +211,9 @@ const reducer = (state: AppState, action: AppAction) => {
         ...state,
         prices: {
           ...state.prices,
-          isLoadingGetList: false,
-          isErrorGetList: true,
-          errorMessage: String(action.payload),
+          isLoadingById: false,
+          isErrorById: true,
+          errorByIdMessage: String(action.payload),
         }
       }
     default:

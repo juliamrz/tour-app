@@ -61,6 +61,6 @@ export const selectPricesArray = (state: AppState) => {
   return Object.values(state.prices.byId);
 };
 
-export const selectIsPriceByIdLoaded = (state: AppState) => state.prices.isLoaded ?? false;
-export const selectIsPriceByIdLoading = (state: AppState) => state.prices.isLoadingGetList ?? false;
-export const selectIsPriceByIdError = (state: AppState) => state.prices.isErrorGetList ?? false;
+export const selectIsPriceByIdLoaded = (state: AppState) => state.prices.isLoadedById ?? false;
+export const selectIsPriceByIdLoading = (state: AppState) => state.prices.isLoadingById ?? false;
+export const selectIsPriceByIdError = (state: AppState) => state.prices.isErrorById ?? false;
