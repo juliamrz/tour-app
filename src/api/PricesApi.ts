@@ -25,8 +25,6 @@ class PricesApi {
 
   async getList(token: string): Promise<GetSearchPricesResponse> {
     this.getListAttempt++;
-    console.debug('debug API getList кількість спроб ', this.getListAttempt);
-
     try {
       const res = await getSearchPrices(token);
       if (!res.ok) {

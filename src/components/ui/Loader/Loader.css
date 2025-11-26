@@ -1,26 +1,157 @@
-@keyframes spin {
-  from {
-    transform: rotate(0);
-  }
-  to{
-    transform: rotate(359deg);
-  }
+.module {
+  position: relative;
+  min-height: 180px;
 }
 
-.spinner-box {
+.throbber.sun {
+  animation: loading-bg 1s;
+  margin-left: -10px;
+  margin-right: -10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.throbber.sun .loading-container {
+  transform: translateY(-50%);
+  margin-left: 10px;
+  min-height: 105px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+.throbber.sun .loader {
+  margin: 0 auto;
+  text-align: center;
   width: 100%;
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
+  min-height: 100%;
+  display: table-cell;
+  vertical-align: middle;
 }
-
-.three-quarter-spinner {
-  width: 50px;
-  height: 50px;
-  border: 3px solid #91daffa5;
-  border-top: 3px solid transparent;
-  border-radius: 50%;
-  animation: spin .5s linear 0s infinite;
+.throbber.sun .loader .spoke-center {
+  border-radius: 18px;
+  background-color: #fcd605;
+  height: 10px;
+  position: relative;
+  left: -11px;
+  top: 19px;
+  width: 10px;
+}
+.throbber.sun .loading-spokes {
+  position: relative;
+  margin: auto;
+  height: 25px;
+}
+.throbber.sun .loading-spokes .spoke-container {
+  position: absolute;
+  top: 100%;
+  left: calc(50% - 10px * 1.5);
+  transform-origin: 50% -60%;
+}
+.throbber.sun .loading-spokes .spoke-container .spoke {
+  -webkit-animation: spoke 1s infinite;
+  -moz-animation: spoke 1s infinite;
+  -o-animation: spoke 1s infinite;
+  animation: spoke 1s infinite;
+  animation-delay: inherit;
+  background: #fcd605;
+  border-radius: 10px;
+  height: 20px;
+  width: 10px;
+}
+.throbber.sun .loading-spokes .spoke-container:nth-of-type(0n + 1) {
+  transform: rotate(-90deg);
+  animation-delay: -0.875s;
+}
+.throbber.sun .loading-spokes .spoke-container:nth-of-type(0n + 2) {
+  transform: rotate(-45deg);
+  animation-delay: -0.75s;
+}
+.throbber.sun .loading-spokes .spoke-container:nth-of-type(0n + 3) {
+  animation-delay: -0.625s;
+}
+.throbber.sun .loading-spokes .spoke-container:nth-of-type(0n + 4) {
+  transform: rotate(45deg);
+  animation-delay: -0.5s;
+}
+.throbber.sun .loading-spokes .spoke-container:nth-of-type(0n + 5) {
+  transform: rotate(90deg);
+  animation-delay: -0.375s;
+}
+.throbber.sun .loading-spokes .spoke-container:nth-of-type(0n + 6) {
+  transform: rotate(135deg);
+  animation-delay: -0.25s;
+}
+.throbber.sun .loading-spokes .spoke-container:nth-of-type(0n + 7) {
+  transform: rotate(180deg);
+  animation-delay: -0.125s;
+}
+.throbber.sun .loading-spokes .spoke-container:nth-of-type(0n + 8) {
+  transform: rotate(225deg);
+  animation-delay: 0;
+}
+@-webkit-keyframes spoke {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+@-moz-keyframes spoke {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+@-o-keyframes spoke {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+@keyframes spoke {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+@-webkit-keyframes loading-bg {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes loading-bg {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes loading-bg {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes loading-bg {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
