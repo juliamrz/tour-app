@@ -1,6 +1,6 @@
 // Internal deps
-import { startSearchPrices, getSearchPrices, getPrice } from '@/api/mocks/api';
-import type { StartSearchResponse, GetSearchPricesResponse, ErrorResponse, PriceOffer } from '@/api/types.ts';
+import { startSearchPrices, getSearchPrices, getPrice, stopSearchPrices } from '@/api/mocks/api';
+import type { StartSearchResponse, GetSearchPricesResponse, ErrorResponse, PriceOffer, StopSearchResponse } from '@/api/types.ts';
 import { delay } from '@/utils/delay.ts';
 import { handleError } from '@/api/utils/handleApiError.ts';
 
@@ -25,21 +25,11 @@ class PricesApi {
 
   async getList(token: string): Promise<GetSearchPricesResponse> {
     this.getListAttempt++;
+    console.debug('debug API getList кількість спроб ', this.getListAttempt);
 
     try {
       const res = await getSearchPrices(token);
       if (!res.ok) {
-        if (res.status === 404 && this.getListAttempt <= 2) {
-          return this.getList(token);
-        }
-
-        if (res.status === 425) {
-          const delayTime = 1000; // Check data source for delay time
-          await delay(delayTime);
-          return this.getList(token);
-        }
-
-        this.getListAttempt = 0;
         throw {
           error: true,
           code: res.status,
@@ -50,7 +40,51 @@ class PricesApi {
       this.getListAttempt = 0;
       return await res.json();
     } catch (error: unknown) {
-      handleError(error);
+      if (error instanceof Response) {
+        const errorBody = await error.json();
+
+        if (errorBody.code === 404 && this.getListAttempt <= 2) {
+          return this.getList(token);
+        }
+        this.getListAttempt = 0;
+
+        if (errorBody.code === 425) {
+          const waitUntilMs = new Date(errorBody.waitUntil).getTime() - new Date().getTime();
+          await delay(waitUntilMs);
+          return this.getList(token);
+        }
+        throw errorBody as ErrorResponse;
+      }
+
+      if (typeof error === "object" && error && "message" in error) {
+        throw error;
+      }
+
+      throw { error: true, code: 0, message: "Unknown error" } as ErrorResponse;
+    }
+  }
+
+  async stopSearchPrices(token: string): Promise<StopSearchResponse> {
+    try {
+      const res = await stopSearchPrices(token);
+
+      if (!res.ok) {
+        const errorBody = await res.json();
+        throw errorBody as ErrorResponse;
+      }
+
+      return await res.json();
+    } catch (error: unknown) {
+      if (error instanceof Response) {
+        const errorBody = await error.json();
+        throw errorBody as ErrorResponse;
+      }
+
+      if (typeof error === "object" && error && "message" in error) {
+        throw error;
+      }
+
+      throw { error: true, code: 0, message: "Unknown error" } as ErrorResponse;
     }
   }
 
