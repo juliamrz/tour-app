@@ -48,7 +48,7 @@ const Select = (props: SelectProps) => {
 
   const onSelectItemClickHandler = (item: SelectOptionItem) => {
     onChange(item.value);
-    setIsSelectListOpen(false)
+    setIsSelectListOpen(false);
   }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
