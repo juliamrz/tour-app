@@ -21,6 +21,10 @@ import { formatDate } from '@/utils/formatDate.ts';
 import Button from '@/components/ui/Button';
 import useHotels from '@/hooks/useHotels.ts';
 import usePrices from '@/hooks/usePrices.ts';
+import AquaparkIcon from '@/components/ui/icons/AquaparkIcon';
+import LaundryIcon from '@/components/ui/icons/LaundryIcon';
+import ParkingIcon from '@/components/ui/icons/ParkingIcon';
+import TennisIcon from '@/components/ui/icons/TennisIcon';
 
 // Local deps
 import './TourCardDetail.css';
