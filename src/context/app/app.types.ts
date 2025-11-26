@@ -4,7 +4,7 @@ import type { Dispatch } from 'react';
 // Internal deps
 import type {
   GetSearchPricesResponse, HotelsMap, Country,
-  Hotel, CountriesMap, HotelDetails
+  Hotel, CountriesMap, HotelDetails, PriceOffer
 } from '@/api/types.ts';
 
 export interface AppAction {
@@ -15,6 +15,7 @@ export interface AppAction {
 export interface AppState {
   prices: {
     list: GetSearchPricesResponse | null,
+    byId: Record<PriceOffer["id"], PriceOffer>,
     isLoaded: boolean,
     isLoadingGetList: boolean,
     isErrorGetList: boolean,

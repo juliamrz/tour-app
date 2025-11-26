@@ -3,12 +3,15 @@ import { useReducer } from 'react';
 import type { PropsWithChildren } from 'react';
 
 // Internal deps
-import type { GetSearchPricesResponse, HotelsMap, Country, CountriesMap, HotelDetails } from '@/api/types.ts';
+import type {
+  GetSearchPricesResponse, HotelsMap, Country,
+  CountriesMap, HotelDetails, PriceOffer,
+} from '@/api/types.ts';
 
 // Local deps
 import {
   PRICES_GET_SEARCH, HOTELS_GET_LIST, COUNTRIES,
-  COUNTRIES_GET_LIST, HOTELS_GET_DETAILS_LIST,
+  COUNTRIES_GET_LIST, HOTELS_GET_DETAILS_LIST, PRICE_GET_BY_ID,
 } from '@/context/app/app.constants.ts';
 import { AppContext, initialState } from './AppContext.ts';
 import type { AppState, AppAction} from './app.types.ts';
@@ -171,6 +174,43 @@ const reducer = (state: AppState, action: AppAction) => {
         ...state,
         hotels: {
           ...state.hotels,
+          isLoadingGetList: false,
+          isErrorGetList: true,
+          errorMessage: String(action.payload),
+        }
+      }
+    case PRICE_GET_BY_ID.SUCCESS: {
+      const price = action.payload as PriceOffer;
+      return {
+        ...state,
+        prices: {
+          ...state.prices,
+          byId: {
+            ...state.prices.byId,
+            [price.id]: price,
+          },
+          isLoaded: true,
+          isLoadingGetList: false,
+          isErrorGetList: false,
+          errorMessage: '',
+        }
+      }
+    }
+    case PRICE_GET_BY_ID.LOADING:
+      return {
+        ...state,
+        prices: {
+          ...state.prices,
+          isLoadingGetList: true,
+          isErrorGetList: false,
+          errorMessage: '',
+        }
+      }
+    case PRICE_GET_BY_ID.ERROR:
+      return {
+        ...state,
+        prices: {
+          ...state.prices,
           isLoadingGetList: false,
           isErrorGetList: true,
           errorMessage: String(action.payload),

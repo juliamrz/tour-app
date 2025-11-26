@@ -9,6 +9,7 @@ import {
   selectHotelDetailsById, selectIsHotelDetailsLoaded,
   selectIsHotelDetailsLoading
 } from '@/context/app/app.hotels.selectors.ts';
+import { selectPriceById, selectIsPriceByIdLoading } from '@/context/app/app.prices.selectors.ts';
 import CardContainer from '@/components/ui/CardContainer';
 import ImgWithSkeleton from '@/components/ui/ImgWithSkeleton';
 import TextItemWithIcon from '@/components/ui/TextItemWithIcon';
@@ -19,6 +20,7 @@ import DateIcon from '@/components/ui/icons/CountryIcon/DateIcon';
 import { formatDate } from '@/utils/formatDate.ts';
 import Button from '@/components/ui/Button';
 import useHotels from '@/hooks/useHotels.ts';
+import usePrices from '@/hooks/usePrices.ts';
 
 // Local deps
 import './TourCardDetail.css';
@@ -39,14 +41,23 @@ const TourCardDetail = (props: TourCardDetail) => {
   const hotelDetailsById = useAppSelector((state) => selectHotelDetailsById(state, Number(hotelId)));
   const isHotelDetailsLoaded = useAppSelector(selectIsHotelDetailsLoaded);
   const isHotelDetailsLoading = useAppSelector(selectIsHotelDetailsLoading);
+  const hotelPrice = useAppSelector((state) => selectPriceById(state, priceId));
+  const isPriceByIdLoading = useAppSelector(selectIsPriceByIdLoading);
   const country = useAppSelector((state) => selectCountryById(state, hotel?.countryId ?? ''));
   const { getHotelDetails } = useHotels();
+  const { getPriceById } = usePrices();
 
   useEffect(() => {
     if (!hotelDetailsById && !isHotelDetailsLoaded) {
       getHotelDetails(Number(hotelId));
     }
   }, [hotelId]);
+
+  useEffect(() => {
+    if (!hotelPrice && !isPriceByIdLoading) {
+      getPriceById(priceId);
+    }
+  }, [priceId]);
 
   return (
     <CardContainer className="tourCardDetail">

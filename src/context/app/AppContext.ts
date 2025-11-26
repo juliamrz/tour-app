@@ -7,6 +7,7 @@ import type { AppContextType } from '@/context/app/app.types.ts';
 export const initialState = {
   prices: {
     list: null,
+    byId: {},
     isLoaded: false,
     isLoadingGetList: false,
     isErrorGetList: false,

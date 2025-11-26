@@ -51,3 +51,16 @@ export const selectHotelById = (state: AppState, hotelId: PriceOffer['id']) => {
 
 export const selectSearchCountryId = (state: AppState) => state.countries.searchId;
 
+export const selectPriceById = (state: AppState, priceId: PriceOffer['id']) => {
+  return state.prices.byId[priceId] ?? null;
+};
+
+export const selectPricesByIdMap = (state: AppState) => state.prices.byId;
+
+export const selectPricesArray = (state: AppState) => {
+  return Object.values(state.prices.byId);
+};
+
+export const selectIsPriceByIdLoaded = (state: AppState) => state.prices.isLoaded ?? false;
+export const selectIsPriceByIdLoading = (state: AppState) => state.prices.isLoadingGetList ?? false;
+export const selectIsPriceByIdError = (state: AppState) => state.prices.isErrorGetList ?? false;
