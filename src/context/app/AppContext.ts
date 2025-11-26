@@ -14,6 +14,7 @@ export const initialState = {
   },
   hotels: {
     list: null,
+    detailsList: {},
     isLoaded: false,
     isLoadingGetList: false,
     isErrorGetList: false,

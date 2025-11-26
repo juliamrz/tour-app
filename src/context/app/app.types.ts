@@ -2,7 +2,7 @@
 import type { Dispatch } from 'react';
 
 // Internal deps
-import type { GetSearchPricesResponse, HotelsMap, Country, CountriesMap } from '@/api/types.ts';
+import type { GetSearchPricesResponse, HotelsMap, Country, Hotel, CountriesMap } from '@/api/types.ts';
 
 export interface AppAction {
   type: string;
@@ -19,6 +19,7 @@ export interface AppState {
   },
   hotels: {
     list: HotelsMap | null,
+    detailsList: Record<Hotel["id"], Hotel>
     isLoaded: boolean,
     isLoadingGetList: boolean,
     isErrorGetList: boolean,

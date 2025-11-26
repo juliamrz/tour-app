@@ -3,11 +3,12 @@ import { useReducer } from 'react';
 import type { PropsWithChildren } from 'react';
 
 // Internal deps
-import type { GetSearchPricesResponse, HotelsMap, Country, CountriesMap } from '@/api/types.ts';
+import type { GetSearchPricesResponse, HotelsMap, Country, CountriesMap, Hotel } from '@/api/types.ts';
 
 // Local deps
 import {
-  PRICES_GET_SEARCH, HOTELS_GET_LIST, COUNTRIES, COUNTRIES_GET_LIST,
+  PRICES_GET_SEARCH, HOTELS_GET_LIST, COUNTRIES,
+  COUNTRIES_GET_LIST, HOTELS_GET_DETAILS_LIST,
 } from '@/context/app/app.constants.ts';
 import { AppContext, initialState } from './AppContext.ts';
 import type { AppState, AppAction} from './app.types.ts';
@@ -18,6 +19,7 @@ const reducer = (state: AppState, action: AppAction) => {
       return {
         ...state,
         prices: {
+          ...state.prices,
           list: action.payload as GetSearchPricesResponse ?? null,
           isLoaded: true,
           isLoadingGetList: false,
@@ -29,6 +31,7 @@ const reducer = (state: AppState, action: AppAction) => {
       return {
         ...state,
         prices: {
+          ...state.prices,
           list: null,
           isLoaded: false,
           isLoadingGetList: true,
@@ -40,6 +43,7 @@ const reducer = (state: AppState, action: AppAction) => {
       return {
         ...state,
         prices: {
+          ...state.prices,
           list: null,
           isLoaded: false,
           isLoadingGetList: false,
@@ -52,6 +56,7 @@ const reducer = (state: AppState, action: AppAction) => {
       return {
         ...state,
         hotels: {
+          ...state.hotels,
           list: {
             ...state.hotels.list,
             ...newHotels,
@@ -66,6 +71,7 @@ const reducer = (state: AppState, action: AppAction) => {
       return {
         ...state,
         hotels: {
+          ...state.hotels,
           list: null,
           isLoaded: false,
           isLoadingGetList: true,
@@ -77,6 +83,7 @@ const reducer = (state: AppState, action: AppAction) => {
       return {
         ...state,
         hotels: {
+          ...state.hotels,
           list: null,
           isLoaded: false,
           isLoadingGetList: false,
@@ -127,6 +134,43 @@ const reducer = (state: AppState, action: AppAction) => {
           ...state.countries,
           list: null,
           isLoaded: false,
+          isLoadingGetList: false,
+          isErrorGetList: true,
+          errorMessage: String(action.payload),
+        }
+      }
+    case HOTELS_GET_DETAILS_LIST.SUCCESS: {
+      const hotel = action.payload as Hotel;
+      return {
+        ...state,
+        hotels: {
+          ...state.hotels,
+          detailsList: {
+            ...state.hotels.detailsList,
+            [hotel.id]: hotel,
+          },
+          isLoaded: true,
+          isLoadingGetList: false,
+          isErrorGetList: false,
+          errorMessage: '',
+        }
+      }
+    }
+    case HOTELS_GET_DETAILS_LIST.LOADING:
+      return {
+        ...state,
+        hotels: {
+          ...state.hotels,
+          isLoadingGetList: true,
+          isErrorGetList: false,
+          errorMessage: '',
+        }
+      }
+    case HOTELS_GET_DETAILS_LIST.ERROR:
+      return {
+        ...state,
+        hotels: {
+          ...state.hotels,
           isLoadingGetList: false,
           isErrorGetList: true,
           errorMessage: String(action.payload),
