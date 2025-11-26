@@ -6,7 +6,7 @@ import PricesApi from '@/api/PricesApi.ts';
 import type { StartSearchResponse } from '@/api/types.ts';
 import { delay } from '@/utils/delay.ts';
 import { AppContext } from '@/context/app/AppContext.ts';
-import { PRICES_GET_SEARCH } from '@/context/app/app.constants.ts';
+import { PRICES_GET_SEARCH, PRICE_GET_BY_ID } from '@/context/app/app.constants.ts';
 
 const usePrices = () => {
   const appCTX = useContext(AppContext);
@@ -52,6 +52,20 @@ const usePrices = () => {
     }
   }
 
+  const getPriceById = async (priceId: string) => {
+    if (!priceId) {
+      return;
+    }
+    appCTX.dispatch({ type: PRICE_GET_BY_ID.LOADING });
+
+    try {
+      const price = await priceApi.getPriceById(priceId);
+      appCTX.dispatch({ type: PRICE_GET_BY_ID.SUCCESS, payload: price });
+    } catch (error) {
+      appCTX.dispatch({ type: PRICE_GET_BY_ID.ERROR, payload: error });
+    }
+  };
+
   useEffect(() => {
     if(searchResponse?.token) {
       getPrices();
@@ -60,6 +74,7 @@ const usePrices = () => {
 
   return {
     startSearch,
+    getPriceById,
   }
 }
 

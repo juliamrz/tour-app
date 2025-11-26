@@ -1,6 +1,7 @@
 // internal deps
 import { getCountries } from '@/api/mocks/api';
 import type { CountriesMap, ErrorResponse } from '@/api/types.ts';
+import { handleError } from '@/api/utils/handleApiError.ts';
 
 class CountriesApi {
   async getList(): Promise<CountriesMap> {
@@ -16,14 +17,7 @@ class CountriesApi {
 
       return await res.json();
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw {
-          error: true,
-          code: 0,
-          message: error.message,
-        } as ErrorResponse;
-      }
-      throw error;
+      handleError(error)
     }
   }
 }

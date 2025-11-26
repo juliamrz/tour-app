@@ -32,3 +32,28 @@
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+.btn--secondary {
+    background-color: #e6e6e6;
+    color: #000;
+    border: 2px solid transparent;
+}
+
+.btn--secondary:hover {
+    background-color: #d4d4d4;
+}
+
+.btn--secondary:active {
+    background-color: #bfbfbf;
+}
+
+.btn--secondary:focus-visible {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.25);
+}
+
+.btn--secondary:disabled {
+    background-color: #f0f0f0;
+    color: #7a7a7a;
+    opacity: 0.6;
+    cursor: not-allowed;
+}

@@ -1,5 +1,5 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Nunito Sans,sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
@@ -16,6 +16,7 @@
 
 html {
   font-size: 16px;
+  color: #404a51;
 }
 
 h1, h2, h3, h4, h5, h6, p, ul, ol, figure, blockquote, dl, dd {

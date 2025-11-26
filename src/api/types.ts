@@ -10,7 +10,17 @@ export type Hotel   = {
   countryId: string;
   countryName: string;
 };
-
+export type HotelDetails = Hotel & {
+  description: string;
+  services: {
+    wifi: string;
+    aquapark?: string;
+    tennis_court?: string;
+    laundry?: string;
+    parking?: string;
+    [key: string]: string | undefined;
+  };
+};
 // Колекції у вигляді словників
 export type CountriesMap = Record<string, Country>;
 export type HotelsMap    = Record<string, Hotel>;

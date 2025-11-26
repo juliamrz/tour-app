@@ -1,7 +1,8 @@
 // Internal deps
-import { startSearchPrices, getSearchPrices } from '@/api/mocks/api';
-import type { StartSearchResponse, GetSearchPricesResponse, ErrorResponse } from '@/api/types.ts';
+import { startSearchPrices, getSearchPrices, getPrice } from '@/api/mocks/api';
+import type { StartSearchResponse, GetSearchPricesResponse, ErrorResponse, PriceOffer } from '@/api/types.ts';
 import { delay } from '@/utils/delay.ts';
+import { handleError } from '@/api/utils/handleApiError.ts';
 
 class PricesApi {
   private getListAttempt: number = 0;
@@ -18,14 +19,7 @@ class PricesApi {
 
       return await res.json();
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw {
-          error: true,
-          code: 0,
-          message: error.message,
-        } as ErrorResponse;
-      }
-      throw error;
+      handleError(error)
     }
   }
 
@@ -56,14 +50,22 @@ class PricesApi {
       this.getListAttempt = 0;
       return await res.json();
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw {
-          error: true,
-          code: 0,
-          message: error.message,
-        } as ErrorResponse;
+      handleError(error);
+    }
+  }
+
+  async getPriceById(priceId: string): Promise<PriceOffer | undefined> {
+    try {
+      const res = await getPrice(priceId);
+
+      if (!res.ok) {
+        const err = await res.json();
+        handleError(err as ErrorResponse);
       }
-      throw error;
+
+      return await res.json() as PriceOffer;
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 }

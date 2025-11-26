@@ -1,0 +1,45 @@
+.tourCardDetail {
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 25px;
+}
+
+.tourCardDetail {
+  margin-bottom: 12px;
+}
+
+.tourCardDetail__hotel {
+  margin-bottom: 8px;
+}
+
+.tourCardDetail__footer {
+  border-top: 1px solid #D8D8D8;
+  padding-top: 12px;
+}
+
+.tourCardDetail__img {
+  margin-bottom: 16px;
+}
+
+.tourCardDetail__sum {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.tourCardDetail__title {
+  margin-bottom: 6px;
+}
+
+.tourCardDetail__btn {
+  width: 150px;
+  height: 36px;
+}
+
+.tourCardDetail__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}

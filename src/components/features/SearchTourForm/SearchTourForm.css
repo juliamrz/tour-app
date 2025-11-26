@@ -3,6 +3,7 @@
   grid-auto-flow: column;
   grid-template-columns: 1fr 250px;
   gap: 18px;
+  margin-bottom: 25px;
 }
 
 @media (max-width: 639px) {

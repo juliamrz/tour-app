@@ -1,6 +1,7 @@
 // internal deps
-import { getHotels } from '@/api/mocks/api';
-import type { HotelsMap, Country, ErrorResponse } from '@/api/types.ts';
+import { getHotels, getHotel } from '@/api/mocks/api';
+import type { HotelsMap, Country, Hotel, HotelDetails, ErrorResponse } from '@/api/types.ts';
+import { handleError } from '@/api/utils/handleApiError.ts';
 
 class HotelsApi {
   async getListByCountryId(countryID: Country['id']): Promise<HotelsMap> {
@@ -16,14 +17,20 @@ class HotelsApi {
 
       return await res.json();
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw {
-          error: true,
-          code: 0,
-          message: error.message,
-        } as ErrorResponse;
+      handleError(error);
+    }
+  }
+
+  async getHotel(hotelId: Hotel['id']): Promise<HotelDetails> {
+    try {
+      const res = await getHotel(hotelId);
+      if (!res.ok) {
+        const err = await res.json();
+        throw err as ErrorResponse;
       }
-      throw error;
+      return await res.json();
+    } catch (error: unknown) {
+      handleError(error);
     }
   }
 }

@@ -3,6 +3,7 @@
 // Internal deps
 import useAppSelector from '@/hooks/useAppSelector.ts';
 import Section from '@/components/ui/Section';
+import MainContainer from '@/components/ui/MainContainer';
 import SearchTourForm from '@/components/features/SearchTourForm';
 import TourList from '@/components/features/TourList';
 import Loader from '@/components/ui/Loader';
@@ -12,7 +13,7 @@ import {
   selectIsToursError, selectToursErrorMessage,
 } from '@/context/app/app.prices.selectors.ts';
 
-const SearchTour = () => {
+const SearchTourPage = () => {
   const isToursLoading = useAppSelector(selectIsToursLoading);
   const isToursLoaded = useAppSelector(selectIsToursLoaded);
   const tours = useAppSelector(selectTours);
@@ -20,29 +21,25 @@ const SearchTour = () => {
   const toursErrorMessage = useAppSelector(selectToursErrorMessage);
 
   return (
-    <main>
+    <MainContainer>
       <Section>
         <SearchTourForm />
+        {isToursLoading
+          ? <Loader />
+          : null
+        }
+        {(isToursLoaded && !tours.length)
+          ? <Notification message="За вашим запитом турів не знайдено" type="info"/>
+          : null
+        }
+        {isToursError
+          ? <Notification message={toursErrorMessage} type="error" />
+          : null
+        }
+        {tours.length > 0 && (<TourList />)}
       </Section>
-      {isToursLoading
-        ? <Section><Loader /></Section>
-        : null
-      }
-      {(isToursLoaded && !tours.length)
-        ? <Section><Notification message="За вашим запитом турів не знайдено" type="info"/></Section>
-        : null
-      }
-      {isToursError
-        ? <Section><Notification message={toursErrorMessage} type="error" /></Section>
-        : null
-      }
-      {tours.length > 0 && (
-        <Section>
-          <TourList />
-        </Section>
-      )}
-    </main>
+    </MainContainer>
   )
 }
 
-export default SearchTour;
+export default SearchTourPage;

@@ -1,5 +1,5 @@
 // External deps
-import type { ChangeEvent } from 'react';
+import {type ChangeEvent, useRef} from 'react';
 import { useEffect, useState } from 'react';
 
 // Internal deps
@@ -31,6 +31,8 @@ const AutoComplete = (props: AutoCompleteProps) => {
     onSearch,
   } = props;
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
   const [ isSelectOpen, setIsSelectOpen ] = useState<boolean>(false);
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -41,39 +43,47 @@ const AutoComplete = (props: AutoCompleteProps) => {
   const onSelectChangeHandler = (newValue: SelectOptionItem["value"]) => {
     setIsSelectOpen(false);
     onChange(newValue);
+    const selectedOption = options.find(item => item.value === newValue);
+    onSearch(selectedOption?.displayName ?? '');
+    if(searchRef.current) {
+      searchRef.current.focus();
+    }
   }
 
-  const onSearchBlurHandler = () => {
-    setIsSelectOpen(false);
-  }
+  const handleClickOutside = (event: MouseEvent) => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+      setIsSelectOpen(false);
+    }
+  };
 
   useEffect(() => {
-    const selectedOption = options.find(item => item.value === value);
-    onSearch(selectedOption?.displayName ?? '');
-  }, [value])
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
-    <Select
-      name='autoComplete'
-      isOpen={isSelectOpen}
-      value={value}
-      options={options}
-      onChange={onSelectChangeHandler}
-      renderInput={({ toggleList }) => (
-        <input
-          autoFocus
-          name={name}
-          autoComplete="off"
-          value={searchText}
-          onChange={onChangeHandler}
-          onBlur={onSearchBlurHandler}
-          onClick={toggleList}
-          placeholder={placeholder}
-          className="autocomplete__input"
-        />
-      )
-      }
-    />
+    <div ref={wrapperRef}>
+      <Select
+        name='autoComplete'
+        isOpen={isSelectOpen}
+        value={value}
+        options={options}
+        onChange={onSelectChangeHandler}
+        renderInput={({ toggleList }) => (
+          <input
+            ref={searchRef}
+            name={name}
+            autoComplete="off"
+            value={searchText}
+            onChange={onChangeHandler}
+            onClick={toggleList}
+            placeholder={placeholder}
+            className="autocomplete__input"
+          />
+        )
+        }
+      />
+    </div>
   )
 }
 
