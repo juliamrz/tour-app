@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 // Internal deps
 import GeoApi from '@/api/GeoApi.ts';
-import type { GeoResponse, ErrorResponse } from '@/api/types.ts';
+import type {GeoResponse, ErrorResponse, Hotel} from '@/api/types.ts';
 import type { SelectOptionItem } from '@/components/ui/Select/Select.tsx';
 import CityIcon from '@/components/ui/icons/CityIcon';
 import HotelIcon from '@/components/ui/icons/HotelIcon';
@@ -28,7 +28,7 @@ const useGeo = () => {
 
   const geoOptions: SelectOptionItem[] = geo
     ? Object.values(geo).map(item => ({
-      value: item.id,
+      value: `${(item as Hotel)?.countryId || item.id}_${item.id}`,
       displayName: item.name,
       label: typeIcons[item.type]?.(item) ?? null
     }))

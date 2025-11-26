@@ -32,12 +32,13 @@ const SearchTourForm = () => {
   }
 
   const handleChange = (newValue: SelectOptionItem["value"]) => {
-    setInputValue(newValue);
+    setInputValue(String(newValue).split('_')[0]);
   }
 
   const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    startSearch(String(inputValue));
+    const searchValue = inputValue ? String(inputValue) : searchText;
+    startSearch(searchValue);
   }
 
   useEffect(() => {
