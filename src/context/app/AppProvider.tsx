@@ -3,7 +3,7 @@ import { useReducer } from 'react';
 import type { PropsWithChildren } from 'react';
 
 // Internal deps
-import type { GetSearchPricesResponse, HotelsMap, Country, CountriesMap, Hotel } from '@/api/types.ts';
+import type { GetSearchPricesResponse, HotelsMap, Country, CountriesMap, HotelDetails } from '@/api/types.ts';
 
 // Local deps
 import {
@@ -140,7 +140,7 @@ const reducer = (state: AppState, action: AppAction) => {
         }
       }
     case HOTELS_GET_DETAILS_LIST.SUCCESS: {
-      const hotel = action.payload as Hotel;
+      const hotel = action.payload as HotelDetails;
       return {
         ...state,
         hotels: {

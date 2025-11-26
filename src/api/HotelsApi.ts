@@ -1,6 +1,6 @@
 // internal deps
 import { getHotels, getHotel } from '@/api/mocks/api';
-import type { HotelsMap, Country, Hotel, ErrorResponse } from '@/api/types.ts';
+import type { HotelsMap, Country, Hotel, HotelDetails, ErrorResponse } from '@/api/types.ts';
 import { handleError } from '@/api/utils/handleApiError.ts';
 
 class HotelsApi {
@@ -21,7 +21,7 @@ class HotelsApi {
     }
   }
 
-  async getHotel(hotelId: Hotel['id']): Promise<Hotel> {
+  async getHotel(hotelId: Hotel['id']): Promise<HotelDetails> {
     try {
       const res = await getHotel(hotelId);
       if (!res.ok) {
