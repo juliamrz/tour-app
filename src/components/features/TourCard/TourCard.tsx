@@ -10,9 +10,9 @@ import ImgWithSkeleton from '@/components/ui/ImgWithSkeleton';
 import TextWithSkeleton from '@/components/ui/TextWithSkeleton';
 import TextButton from '@/components/ui/TextButton';
 import { formatDate } from '@/utils/formatDate.ts';
-import { formatNumber } from '@/utils/formatNumber.ts';
 import { selectHotelById } from '@/context/app/app.prices.selectors.ts';
 import { selectCountryById } from '@/context/app/app.countries.selectors.ts';
+import { formatCurrency } from '@/utils/formatCurrency.ts';
 
 // Local deps
 import './TourCard.css'
@@ -52,7 +52,7 @@ const TourCard = (props: TourCardProps) => {
       </div>
       <span>Старт туру</span>
       <span>{formatDate(startDate)}</span>
-      <h3 className={clsx("tourСard__amount")}>{formatNumber(amount)} {currency}</h3>
+      <h3 className={clsx("tourСard__amount")}>{formatCurrency(amount, currency)}</h3>
       <TextButton
         className={clsx("tourСard__link")}
         onClick={() => navigate(`/tour/${priceId}/${hotelID}`)}

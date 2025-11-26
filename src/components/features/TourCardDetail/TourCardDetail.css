@@ -25,6 +25,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 8px;
+}
+
+.tourCardDetail__title {
+  margin-bottom: 6px;
 }
 
 .tourCardDetail__btn {

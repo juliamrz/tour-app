@@ -1,12 +1,12 @@
 // Internal deps
 import type { AppState } from '@/context/app/app.types.ts';
-import type { Hotel } from '@/api/types.ts';
+import type { HotelDetails } from '@/api/types.ts';
 
-export const selectHotelsDetailsList = (state: AppState): Record<Hotel["id"], Hotel> => {
+export const selectHotelsDetailsList = (state: AppState): Record<HotelDetails["id"], HotelDetails> => {
   return state.hotels.detailsList ?? {};
 };
 
-export const selectHotelDetailsById = (state: AppState, hotelId: Hotel["id"]): Hotel | null => {
+export const selectHotelDetailsById = (state: AppState, hotelId: HotelDetails["id"]): HotelDetails | null => {
   const detailsList = state.hotels.detailsList;
   if (!detailsList) {
     return null;
