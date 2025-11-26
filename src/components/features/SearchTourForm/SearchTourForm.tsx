@@ -22,7 +22,7 @@ const SearchTourForm = () => {
   const [ searchText, setSearchText ] = useState<string>('');
   const { countriesOptions } = useCountries();
   const { geoOptions, isGeoSearchLoading, searchGeo } = useGeo();
-  const { startSearch } = usePrices();
+  const { startSearch, isStopSearchLoading } = usePrices();
   const { getHotels } = useHotels();
   const isToursLoaded = useAppSelector(selectIsToursLoaded);
   const tours = useAppSelector(selectTours);
@@ -68,7 +68,7 @@ const SearchTourForm = () => {
         />
         <Button
           type="submit"
-          disabled={isGeoSearchLoading}
+          disabled={isGeoSearchLoading || isStopSearchLoading}
         >
           Submit
         </Button>
