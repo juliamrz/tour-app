@@ -2,6 +2,7 @@
 import { startSearchPrices, getSearchPrices } from '@/api/mocks/api';
 import type { StartSearchResponse, GetSearchPricesResponse, ErrorResponse } from '@/api/types.ts';
 import { delay } from '@/utils/delay.ts';
+import { handleError } from '@/api/utils/handleApiError.ts';
 
 class PricesApi {
   private getListAttempt: number = 0;
@@ -18,14 +19,7 @@ class PricesApi {
 
       return await res.json();
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw {
-          error: true,
-          code: 0,
-          message: error.message,
-        } as ErrorResponse;
-      }
-      throw error;
+      handleError(error)
     }
   }
 
@@ -56,14 +50,7 @@ class PricesApi {
       this.getListAttempt = 0;
       return await res.json();
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw {
-          error: true,
-          code: 0,
-          message: error.message,
-        } as ErrorResponse;
-      }
-      throw error;
+      handleError(error);
     }
   }
 }

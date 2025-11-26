@@ -1,6 +1,7 @@
 // internal deps
 import { searchGeo } from '@/api/mocks/api';
 import type { GeoResponse, ErrorResponse } from '@/api/types.ts';
+import { handleError } from '@/api/utils/handleApiError.ts';
 
 class GeoApi {
   async search(query: string = ""): Promise<GeoResponse> {
@@ -16,14 +17,7 @@ class GeoApi {
 
       return await res.json();
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw {
-          error: true,
-          code: 0,
-          message: error.message,
-        } as ErrorResponse;
-      }
-      throw error;
+      handleError(error);
     }
   }
 }

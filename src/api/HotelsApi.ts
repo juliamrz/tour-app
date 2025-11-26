@@ -1,6 +1,7 @@
 // internal deps
 import { getHotels, getHotel } from '@/api/mocks/api';
 import type { HotelsMap, Country, Hotel, ErrorResponse } from '@/api/types.ts';
+import { handleError } from '@/api/utils/handleApiError.ts';
 
 class HotelsApi {
   async getListByCountryId(countryID: Country['id']): Promise<HotelsMap> {
@@ -16,14 +17,7 @@ class HotelsApi {
 
       return await res.json();
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw {
-          error: true,
-          code: 0,
-          message: error.message,
-        } as ErrorResponse;
-      }
-      throw error;
+      handleError(error);
     }
   }
 
@@ -36,14 +30,7 @@ class HotelsApi {
       }
       return await res.json();
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw {
-          error: true,
-          code: 0,
-          message: error.message,
-        } as ErrorResponse;
-      }
-      throw error;
+      handleError(error);
     }
   }
 }
